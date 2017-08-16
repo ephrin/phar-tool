@@ -25,15 +25,12 @@ class UpdateYaml extends Command
     {
         $file = $input->getArgument('file');
         $content = Yaml::parse(file_get_contents($file));
-        $type = $input->getOption('value-type');
         $value = $input->getArgument('value');
-        if (strtolower($type) !== 'mixed') {
-            if (function_exists($type)) {
-                $value = $type($value);
-            } else {
-                settype($value, $type);
-            }
-        }
+
+        $cast = $this->getTypeCast($input->getOption('value-type'));
+
+        $value = $cast($value);
+
         self::set($content, $input->getArgument('node-path'), $value);
         echo Yaml::dump($content, $input->getOption('inline'), $input->getOption('indent'));
     }
@@ -57,5 +54,38 @@ class UpdateYaml extends Command
         $array[array_shift($keys)] = $value;
 
         return $array;
+    }
+
+    /**
+     * @param string $type
+     * @return callable
+     */
+    private function getTypeCast($type)
+    {
+        switch ($type) {
+            case 'json':
+                return function ($x) {
+                    return json_decode($x, true);
+                };
+                break;
+            case 'yaml':
+            case 'yml':
+                return function ($x) {
+                    return Yaml::parse($x);
+                };
+                break;
+            case 'mixed':
+                return function ($x) {
+                    return $x;
+                };
+                break;
+            default:
+                return function ($x) use ($type) {
+                    settype($x, $type);
+
+                    return $x;
+                };
+                break;
+        }
     }
 }
