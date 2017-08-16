@@ -1,0 +1,14 @@
+{
+    "main":"index.php",
+    "output": "example.phar",
+    "finder": [
+        {
+            "in": "./Commands",
+            "name": "*"
+        },
+        {
+            "in": "./vendor",
+            "name": "*"
+        }
+    ]
+}

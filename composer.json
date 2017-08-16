@@ -1,0 +1,17 @@
+{
+    "name": "orocloud/parse-conf",
+    "description": "description_text",
+    "minimum-stability": "dev",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "author's name",
+            "email": "email@example.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "v3.3.6",
+        "symfony/yaml": "v3.3.6",
+        "igorw/get-in": "v1.0.3"
+    }
+}
