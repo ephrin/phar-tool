@@ -1,6 +1,6 @@
 {
     "main":"index.php",
-    "output": "example.phar",
+    "output": "yaml.phar",
     "finder": [
         {
             "in": "./Commands",
